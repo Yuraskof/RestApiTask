@@ -21,7 +21,7 @@ namespace RestApiTask.Utils
 
         private static string host = testData.Host; 
 
-        public static string Search(string request)
+        public static HttpResponseMessage GetRequest(string request)
         {
             HttpClient client = new HttpClient();
 
@@ -29,13 +29,9 @@ namespace RestApiTask.Utils
 
             HttpResponseMessage response = client.GetAsync(uri).Result;
 
-            int statusCodeValue = (int)response.StatusCode;
-
-            string contentString = response.Content.ReadAsStringAsync().Result;
-
             client.Dispose();
 
-            return contentString;
+            return response;
         }
     }
 }

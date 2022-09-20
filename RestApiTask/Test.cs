@@ -10,14 +10,13 @@ namespace RestApiTask
         [SetUp]
         public void Setup()
         {
-            
+            FileReader.GetRequestUrls();
         }
 
         [Test]
         public void Test1()
         {
-            FileReader.GetRequestModel();
-            //Assert.IsTrue(FileReader.CheckIdAreAscending(requestModel.Path));
+            Assert.IsTrue(FileReader.CheckIdAreAscending(FileReader.requestUrl["Request1"], StatusCodes.OK));
         }
 
     }
