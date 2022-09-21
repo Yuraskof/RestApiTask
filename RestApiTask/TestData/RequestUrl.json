@@ -1,6 +1,6 @@
 {
-  "Request1": "/posts",
-  "Request2": "/posts/99",
+  "AllPostsRequest": "/posts",
+  "Post99Request": "/posts/99",
   "Request3": "/posts/150",
   "Request4": "/posts",
   "Request5": "/users",

@@ -7,50 +7,58 @@ namespace RestApiTask.Utils
 {
     public static class FileReader
     {
+        private static Logger Log = Logger.Instance;
+
         public static Dictionary<string, string> requestUrl = new Dictionary<string, string>();
-
-        public static bool CheckStatusCode(HttpResponseMessage response, int statusCode)
+        
+        public static void GetRequestUrls()
         {
-            int statusCodeValue = (int)response.StatusCode;
+            Log.Info("Get request URLs");
+            var filePath = ProjectConstants.PathToRequestData;
+            var json = File.ReadAllText(filePath);
+            var jsonObj = JObject.Parse(json);
 
-            return statusCodeValue == statusCode;
+            foreach (var element in jsonObj)
+            {
+                requestUrl.Add(element.Key, element.Value.ToString());
+            }
         }
 
-        public static bool CheckIdAreAscending(string responseUrl, int statusCode)
+        public static void ClearLogFile()
         {
-            var response = ApiUtils.GetRequest(responseUrl);
+            FileInfo file = new FileInfo(ProjectConstants.PathToLogFile);
 
-            if (!CheckStatusCode(response, statusCode))
+            if (file.Exists)
             {
-                return false;
+                file.Delete();
+                Log.Info("Log file deleted");
             }
-
-            string contentString = response.Content.ReadAsStringAsync().Result;
-
-            var postModels = JsonConvert.DeserializeObject<List<PostModel>>(contentString); 
-
-            int previousId = -1;
-
-            foreach (var element in postModels)
-            {
-                int id = Convert.ToInt32(element.Id);
-
-                if (previousId < 0)
-                {
-                    previousId = id;
-                    continue;
-                }
-
-                if (id < previousId)
-                {
-                    return false;
-                }
-                
-                previousId = id;
-                
-            }
-            return true;
         }
+
+        public static T ReadJsonData<T>(string path)
+        {
+            Log.Info("Start deserializing");
+            return JsonConvert.DeserializeObject<T>(ReadFile(path));
+        }
+
+        
+
+        public static string ReadFile(string path)
+        {
+            using (StreamReader sr = new StreamReader(path))
+            {
+                Log.Info("Start file reading");
+                return sr.ReadToEnd();
+            }
+        }
+
+
+        //public static List<T> DeserializeJsonToList<T>(string path)
+        //{
+        //    Log.Info("Start deserializing to list of objects");
+        //    return JsonConvert.DeserializeObject<List<T>>(ReadFile(path));
+        //}
+
 
         public static void GetRequestModel()
         {
@@ -84,43 +92,6 @@ namespace RestApiTask.Utils
             string testData = File.ReadAllText("TestData.json");
 
             return testData;
-        }
-
-
-        public static void GetRequestUrls()
-        {
-            var filePath = ProjectConstants.PathToRequestData;
-            var json = File.ReadAllText(filePath);
-            var jsonObj = JObject.Parse(json);
-
-            foreach (var element in jsonObj)
-            {
-                requestUrl.Add(element.Key, element.Value.ToString());
-            }
-        }
-
-
-        public static void ClearLogFile()
-        {
-            FileInfo file = new FileInfo(ProjectConstants.PathToLogFile);
-
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-        }
-        
-        public static T ReadJsonData<T>(string path)
-        {
-            return JsonConvert.DeserializeObject<T>(ReadFile(path)); 
-        }
-
-        private static string ReadFile(string path)
-        {
-            using (StreamReader sr = new StreamReader(path))
-            {
-                return sr.ReadToEnd();
-            }
         }
     }
 }
