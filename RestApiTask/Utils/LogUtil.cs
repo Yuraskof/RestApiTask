@@ -6,9 +6,6 @@ using ILogger = NLog.ILogger;
 
 namespace RestApiTask.Utils
 {
-    /// <summary>
-    /// This class is using for a creating extended log. It implements a Singleton pattern.
-    /// </summary>
     public sealed class Logger
     {
         private static readonly Lazy<Logger> LazyInstance = new Lazy<Logger>(() => new Logger());
@@ -46,7 +43,6 @@ namespace RestApiTask.Utils
             return configuration;
         }
 
-        /// <summary>Gets Logger instance.</summary>
         public static Logger Instance => LazyInstance.Value;
 
         /// <summary>Adds configuration (target).</summary>

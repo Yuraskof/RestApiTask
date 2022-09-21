@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NLog.Fluent;
 
 namespace RestApiTask.Models
 {
     public class UserModel
     {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string username { get; set; }
+        public string email { get; set; }
+        public Address address { get; set; }
+        public string phone { get; set; }
+        public string website { get; set; }
+        public Company company { get; set; }
 
-        public class Rootobject
-        {
-            public Class1[] Property1 { get; set; }
-        }
-
-        public class Class1
-        {
-            public int id { get; set; }
-            public string name { get; set; }
-            public string username { get; set; }
-            public string email { get; set; }
-            public Address address { get; set; }
-            public string phone { get; set; }
-            public string website { get; set; }
-            public Company company { get; set; }
-        }
 
         public class Address
         {
@@ -48,5 +36,39 @@ namespace RestApiTask.Models
             public string bs { get; set; }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            UserModel other = (UserModel)obj;
+
+            if (id.Equals(other.id) && name.Equals(other.name) && username.Equals(other.username) &&
+                email.Equals(other.email) && address.street.Equals(other.address.street) && address.city.Equals(other.address.city) && 
+                address.suite.Equals(other.address.suite) && address.zipcode.Equals(other.address.zipcode) && 
+                phone.Equals(other.phone) && website.Equals(other.website) && address.geo.lat.Equals(other.address.geo.lat) &&
+                address.geo.lng.Equals(other.address.geo.lng) && company.bs.Equals(other.company.bs) &&
+                company.catchPhrase.Equals(other.company.catchPhrase) && company.name.Equals(other.company.name))
+            {
+                Log.Info("User models are equal");
+                return true;
+            }
+            Log.Error("User models aren't  equal");
+            return false;
+        }
+
+        public static UserModel GetModelById(List<UserModel> models, int idNumber)
+        {
+            foreach (var element in models)
+            {
+                if (element.id == idNumber)
+                {
+                    Log.Info("User model found");
+                    return element;
+                }
+            }
+            Log.Info("User model not found");
+            return null;
+        }
     }
 }

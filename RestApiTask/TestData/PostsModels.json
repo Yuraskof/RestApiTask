@@ -1,5 +1,5 @@
 {
-  "ResponsePost99": [
+  "ResponseGetPost99": [
     {
       "userId": "10",
       "id": "99",
@@ -7,15 +7,7 @@
       "title": ""
     }
   ],
-  "Step3": [
-    {
-      "userId": "",
-      "id": "",
-      "body": "",
-      "title": ""
-    }
-  ],
-  "Step4": [
+  "ModelToPost": [
     {
       "userId": "1",
       "id": "",

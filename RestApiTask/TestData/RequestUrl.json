@@ -1,8 +1,8 @@
 {
-  "AllPostsRequest": "/posts",
-  "Post99Request": "/posts/99",
-  "Request3": "/posts/150",
-  "Request4": "/posts",
-  "Request5": "/users",
-  "Request6": "/users/5"
+  "GetAllPostsRequest": "/posts",
+  "GetPost99Request": "/posts/99",
+  "GetPost150Request": "/posts/150",
+  "PostRequest": "/posts",
+  "GetAllUsersRequest": "/users",
+  "GetAllUser5Request": "/users/5"
 }

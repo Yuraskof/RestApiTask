@@ -1,3 +1,5 @@
 {
-  "host": "https://jsonplaceholder.typicode.com"
+  "host": "https://jsonplaceholder.typicode.com",
+  "LettersCount": "10",
+  "UserId":  "5"
 }

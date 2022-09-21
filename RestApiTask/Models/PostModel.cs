@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RestApiTask.Utils;
-using System.IO;
 using Newtonsoft.Json.Linq;
 using RestApiTask.Constants;
 
@@ -19,22 +18,6 @@ namespace RestApiTask.Models
 
         private static Logger Log = Logger.Instance;
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-                return false;
-
-            PostModel other = (PostModel)obj;
-
-            if (UserId.Equals(other.UserId) && Id.Equals(other.Id) && Title.Equals(other.Title) &&
-                Body.Equals(other.Body))
-            {
-                Log.Info("Post models are equal");
-                return true;
-            }
-            Log.Error("Post models aren't  equal");
-            return false;
-        }
 
         public static PostModel SetModelFromTestData(string arrayName)
         {
@@ -73,9 +56,7 @@ namespace RestApiTask.Models
                 {
                     return false;
                 }
-
                 previousId = id;
-
             }
             return true;
         }
