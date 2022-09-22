@@ -6,20 +6,18 @@ namespace RestApiTask.Utils
 {
     public static class FileReader
     {
-        private static Logger Log = Logger.Instance;
-
-        public static Dictionary<string, string> requestUrl = new Dictionary<string, string>();
+        public static Dictionary<string, string> requestUrlNumbers = new Dictionary<string, string>();
         
         public static void GetRequestUrls()
         {
-            Log.Info("Get request URLs");
+            Test.Log.Info("Get request URLs");
             var filePath = ProjectConstants.PathToRequestData;
             var json = File.ReadAllText(filePath);
             var jsonObj = JObject.Parse(json);
 
             foreach (var element in jsonObj)
             {
-                requestUrl.Add(element.Key, element.Value.ToString());
+                requestUrlNumbers.Add(element.Key, element.Value.ToString());
             }
         }
 
@@ -30,12 +28,13 @@ namespace RestApiTask.Utils
             if (file.Exists)
             {
                 file.Delete();
-                Log.Info("Log file deleted");
+                Test.Log.Info("Log file deleted");
             }
         }
+
         public static T ReadJsonData<T>(string path)
         {
-            Log.Info("Start deserializing");
+            Test.Log.Info("Start deserializing");
             return JsonConvert.DeserializeObject<T>(ReadFile(path));
         }
 
@@ -43,7 +42,7 @@ namespace RestApiTask.Utils
         {
             using (StreamReader sr = new StreamReader(path))
             {
-                Log.Info("Start file reading");
+                Test.Log.Info("Start file reading");
                 return sr.ReadToEnd();
             }
         }

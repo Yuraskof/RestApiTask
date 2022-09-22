@@ -7,7 +7,7 @@ namespace RestApiTask
 {
     public class Test
     {
-        private static Logger Log = Logger.Instance;
+        public static Logger Log = Logger.Instance;
         public static readonly TestData testData = FileReader.ReadJsonData<TestData>(ProjectConstants.PathToTestData);
 
         [SetUp]
@@ -21,12 +21,13 @@ namespace RestApiTask
         public void TestApi()
         {
             Log.Info("Test started");
-            Assert.IsTrue(PostModel.CheckIdAreAscending(FileReader.requestUrl["GetAllPostsRequest"]), "Ids are not ascending");
+            List<PostModel> postModels = ApiApplicationRequest.GetAllPosts();
+            Assert.IsTrue(ModelUtils.CheckIdAreAscending(postModels), "Ids are not ascending");
             Assert.IsTrue(ApiApplicationRequest.CheckStatusCode(StatusCodes.OK), "Status code not as expected");
             Log.Info("Step 1 completed");
 
-            PostModel post99modelFromResponse = ApiApplicationRequest.GetSpecifiedPost(FileReader.requestUrl["GetPost99Request"]);
-            PostModel post99FromTestData = PostModel.SetModelFromTestData("ResponseGetPost99");
+            PostModel post99modelFromResponse = ApiApplicationRequest.GetSpecifiedPost(Convert.ToInt32(FileReader.requestUrlNumbers["Post99"]));
+            PostModel post99FromTestData = ModelUtils.SetPostModelFromTestData("ResponseGetPost99");
             Assert.IsTrue(ApiApplicationRequest.CheckStatusCode(StatusCodes.OK), "Status code not as expected");
 
             Assert.Multiple(() =>
@@ -38,7 +39,7 @@ namespace RestApiTask
             });
             Log.Info("Step 2 completed");
 
-            PostModel post150modelFromResponse = ApiApplicationRequest.GetSpecifiedPost(FileReader.requestUrl["GetPost150Request"]);
+            PostModel post150modelFromResponse = ApiApplicationRequest.GetSpecifiedPost(Convert.ToInt32(FileReader.requestUrlNumbers["Post150"]));
             Assert.IsTrue(ApiApplicationRequest.CheckStatusCode(StatusCodes.NotFound), "Status code not as expected");
             Assert.Multiple(() =>
             {
@@ -49,11 +50,11 @@ namespace RestApiTask
             });
             Log.Info("Step 3 completed");
 
-            PostModel modelToPostFromTestData = PostModel.SetModelFromTestData("ModelToPost");
+            PostModel modelToPostFromTestData = ModelUtils.SetPostModelFromTestData("ModelToPost");
             modelToPostFromTestData.Body = StringUtils.StringGenerator(Convert.ToInt32(testData.LettersCount));
             modelToPostFromTestData.Title = StringUtils.StringGenerator(Convert.ToInt32(testData.LettersCount));
 
-            PostModel postModelCreatedPost = ApiApplicationRequest.CreateModelOfCreatedPost(FileReader.requestUrl["PostRequest"], modelToPostFromTestData);
+            PostModel postModelCreatedPost = ApiApplicationRequest.CreatePost(modelToPostFromTestData);
             Assert.IsTrue(ApiApplicationRequest.CheckStatusCode(StatusCodes.Created), "Status code not as expected");
 
             Assert.Multiple(() =>
@@ -66,18 +67,16 @@ namespace RestApiTask
             Log.Info("Step 4 completed");
 
             UserModel userModelFromTestData = FileReader.ReadJsonData<UserModel>(ProjectConstants.PathToUserModel);
-            List<UserModel> userModels = ApiApplicationRequest.GetAllUsers(FileReader.requestUrl["GetAllUsersRequest"]);
-            UserModel userModelFromResponse = UserModel.GetModelById(userModels, Convert.ToInt32(testData.UserId));
+            List<UserModel> userModels = ApiApplicationRequest.GetAllUsers();
+            UserModel userModelFromResponse = ModelUtils.GetModelById(userModels, Convert.ToInt32(testData.UserId));
             Assert.IsTrue(ApiApplicationRequest.CheckStatusCode(StatusCodes.OK), "Status code not as expected");
             Assert.IsTrue(userModelFromTestData.Equals(userModelFromResponse), "Models are not equal");
             Log.Info("Step 5 completed");
 
-            UserModel user5modelFromResponse = ApiApplicationRequest.GetSpecifiedUser(FileReader.requestUrl["GetAllUser5Request"]);
+            UserModel user5modelFromResponse = ApiApplicationRequest.GetSpecifiedUser(Convert.ToInt32(FileReader.requestUrlNumbers["User5"]));
             Assert.IsTrue(ApiApplicationRequest.CheckStatusCode(StatusCodes.OK), "Status code not as expected");
             Assert.IsTrue(userModelFromTestData.Equals(user5modelFromResponse), "Models are not equal");
-            Log.Info("Step 6 completed");
+            Log.Info("Step 6 completed. Test case successfully completed.");
         }
-
-
     }
 }

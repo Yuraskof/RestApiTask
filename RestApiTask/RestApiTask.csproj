@@ -22,7 +22,7 @@
     <None Update="TestData\PostsModels.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="TestData\RequestUrl.json">
+    <None Update="TestData\RequestUrlNumbers.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TestData\TestData.json">

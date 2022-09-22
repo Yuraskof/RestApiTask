@@ -1,8 +1,0 @@
-{
-  "GetAllPostsRequest": "/posts",
-  "GetPost99Request": "/posts/99",
-  "GetPost150Request": "/posts/150",
-  "PostRequest": "/posts",
-  "GetAllUsersRequest": "/users",
-  "GetAllUser5Request": "/users/5"
-}

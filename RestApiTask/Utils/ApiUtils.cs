@@ -6,13 +6,11 @@ namespace RestApiTask.Utils
 {
     public class ApiUtils
     {
-        private static Logger Log = Logger.Instance;
-        
         private static string host = Test.testData.Host; 
 
         public static HttpResponseMessage GetRequest(string request)
         {
-            Log.Info(string.Format("Get request {1}{0}", request, host));
+            Test.Log.Info(string.Format("Get request {1}{0}", request, host));
 
             HttpClient client = new HttpClient();
 
@@ -27,7 +25,7 @@ namespace RestApiTask.Utils
 
         public static HttpResponseMessage PostRequest(string request, object content)
         {
-            Log.Info(string.Format("Post request {1}{0}", request, host));
+            Test.Log.Info(string.Format("Post request {1}{0}", request, host));
 
             var stringContent = JsonConvert.SerializeObject(content);
             var httpContent = new StringContent(stringContent, Encoding.UTF8, ProjectConstants.MediaType);

@@ -2,8 +2,6 @@
 {
     public class StringUtils
     {
-        private static Logger Log = Logger.Instance;
-
         public static string StringGenerator(int lettersCount)
         {
             char[] letters = "ABCD EFGHI_JKLMN-OPQRS!TUVWXYZabc,defghigk lmnopqr stuvwxyz".ToCharArray();
@@ -18,7 +16,7 @@
 
                 word += letters[letter];
             }
-            Log.Info(string.Format("generated random text = {0}", word));
+            Test.Log.Info(string.Format("generated random text = {0}", word));
             return word;
         }
     }

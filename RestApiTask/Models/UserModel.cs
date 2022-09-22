@@ -1,6 +1,4 @@
-﻿using NLog.Fluent;
-
-namespace RestApiTask.Models
+﻿namespace RestApiTask.Models
 {
     public class UserModel
     {
@@ -50,25 +48,11 @@ namespace RestApiTask.Models
                 address.geo.lng.Equals(other.address.geo.lng) && company.bs.Equals(other.company.bs) &&
                 company.catchPhrase.Equals(other.company.catchPhrase) && company.name.Equals(other.company.name))
             {
-                Log.Info("User models are equal");
+                Test.Log.Info("User models are equal");
                 return true;
             }
-            Log.Error("User models aren't  equal");
+            Test.Log.Error("User models aren't  equal");
             return false;
-        }
-
-        public static UserModel GetModelById(List<UserModel> models, int idNumber)
-        {
-            foreach (var element in models)
-            {
-                if (element.id == idNumber)
-                {
-                    Log.Info("User model found");
-                    return element;
-                }
-            }
-            Log.Info("User model not found");
-            return null;
         }
     }
 }
